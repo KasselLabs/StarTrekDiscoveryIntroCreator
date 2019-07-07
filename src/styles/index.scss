@@ -1,0 +1,91 @@
+@font-face {
+  font-family: TrueNo;
+  src: url(../../assets/fonts/truenoexbd.otf);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #dcc290;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+$appear-blur: 5px;
+@keyframes appear {
+  0% {
+    opacity: 0;
+    filter: blur($appear-blur);
+  }
+  30% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  70% {
+    opacity: 1;
+    filter: blur(0px)
+  }
+  100% {
+    opacity: 0;
+    filter: blur($appear-blur);
+  }
+}
+
+$shrink-start: 1.1rem;
+$shrink-end: 0.7rem;
+@keyframes shrink {
+  0% {
+    letter-spacing: $shrink-start;
+    transform: translateX(0)
+  }
+  100% {
+    letter-spacing: $shrink-end;
+    transform: translateX($shrink-start - $shrink-end);
+  }
+}
+
+$expand-start: 0.7rem;
+$expand-end: 1.1rem;
+@keyframes expand {
+  0% {
+    letter-spacing: $expand-start;
+    transform: translateX(0)
+  }
+  100% {
+    letter-spacing: $expand-end;
+    transform: translateX($expand-start - $expand-end);
+  }
+}
+
+.credit-text {
+  $time: 3s;
+  animation: $time ease-in-out appear;
+  opacity: 0;
+
+  * {
+    font-family: TrueNo;
+    font-size: 4rem;
+    text-transform: uppercase;
+    line-height: 2.8rem;
+    color: #0d0803;
+
+    &.shrinking {
+      letter-spacing: $shrink-end;
+      transform: translateX($shrink-start - $shrink-end);
+      animation: $time ease-in-out shrink;
+    }
+
+    &.expanding {
+      letter-spacing: $expand-end;
+      transform: translateX($expand-start - $expand-end);
+      animation: $time ease-in-out expand;
+    }
+  }
+}

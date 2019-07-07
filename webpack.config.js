@@ -20,7 +20,7 @@ module.exports = {
     rules: [
       { test: /\.json$/, loader: 'json-loader'},
       { test: /\.js$/, exclude: /(node_modules|bower_components)\//, loader: 'babel-loader'},
-      { test: /\.(ttf.*|eot.*|woff.*|ogg|mp3)$/, loader: 'file-loader'},
+      { test: /\.(ttf.*|eot.*|woff.*|ogg|mp3|otf)$/, loader: 'file-loader'},
       { test: /.(png|jpe?g|gif|svg.*)$/, loader: 'file-loader'},
       {
         test: /\.css$/,
