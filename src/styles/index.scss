@@ -38,6 +38,7 @@ $appear-blur: 5px;
   }
 }
 
+$small-ratio: 0.5;
 $shrink-start: 1.1rem;
 $shrink-end: 0.7rem;
 @keyframes shrink {
@@ -48,6 +49,17 @@ $shrink-end: 0.7rem;
   100% {
     letter-spacing: $shrink-end;
     transform: translateX($shrink-start - $shrink-end);
+  }
+}
+
+@keyframes shrink-small {
+  0% {
+    letter-spacing: $shrink-start * $small-ratio;
+    transform: translateX(0)
+  }
+  100% {
+    letter-spacing: $shrink-end * $small-ratio;
+    transform: translateX(($shrink-start - $shrink-end) * $small-ratio);
   }
 }
 
@@ -64,28 +76,67 @@ $expand-end: 1.1rem;
   }
 }
 
+@keyframes expand-small {
+  0% {
+    letter-spacing: $expand-start * $small-ratio;
+    transform: translateX(0)
+  }
+  100% {
+    letter-spacing: $expand-end * $small-ratio;
+    transform: translateX(($expand-start - $expand-end) * $small-ratio);
+  }
+}
+
 .credit-text {
   $time: 3s;
   animation: $time ease-in-out appear;
   opacity: 0;
 
-  * {
-    font-family: TrueNo;
-    font-size: 4rem;
-    text-transform: uppercase;
-    line-height: 2.8rem;
-    color: #0d0803;
+  > div {
+    display: relative;
 
-    &.shrinking {
-      letter-spacing: $shrink-end;
-      transform: translateX($shrink-start - $shrink-end);
-      animation: $time ease-in-out shrink;
-    }
+    * {
+      font-family: TrueNo;
+      font-size: 4rem;
+      text-transform: uppercase;
+      line-height: 2.8rem;
+      color: #0d0803;
+      white-space: nowrap;
 
-    &.expanding {
-      letter-spacing: $expand-end;
-      transform: translateX($expand-start - $expand-end);
-      animation: $time ease-in-out expand;
+      &.small {
+        font-size: 2rem;
+        line-height: 2rem;
+
+        &.top {
+          position: absolute;
+          top: -50px;
+          left: -53px;
+        }
+
+        .shrinking {
+          letter-spacing: $shrink-end * $small-ratio;
+          transform: translateX(($shrink-start - $shrink-end) * $small-ratio);
+          animation: $time ease-in-out shrink-small;
+        }
+
+        .expanding {
+          letter-spacing: $expand-end * $small-ratio;
+          transform: translateX(($expand-start - $expand-end) * $small-ratio);
+          animation: $time ease-in-out expand-small;
+        }
+      }
+
+      &.shrinking {
+        letter-spacing: $shrink-end;
+        transform: translateX($shrink-start - $shrink-end);
+        animation: $time ease-in-out shrink;
+      }
+
+      &.expanding {
+        letter-spacing: $expand-end;
+        transform: translateX($expand-start - $expand-end);
+        animation: $time ease-in-out expand;
+      }
     }
   }
 }
