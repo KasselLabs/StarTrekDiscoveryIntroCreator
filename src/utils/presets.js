@@ -1,7 +1,7 @@
 export default {
   defaults: {
     duration: 2,
-    classes: ["shrinking", "expanding"],
+    classes: ['shrinking', 'expanding'],
   },
   sequence: [
     {
@@ -9,7 +9,7 @@ export default {
       y: 70,
       duration: 2,
       start: 0,
-      classes: ["small top shrinking", "shrinking", "expanding"],
+      classes: ['small top shrinking', 'shrinking', 'expanding'],
     },
     {
       x: 70,
@@ -18,4 +18,4 @@ export default {
       start: 2,
     },
   ],
-}
+};

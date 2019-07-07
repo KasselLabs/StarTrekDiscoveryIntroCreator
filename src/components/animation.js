@@ -1,5 +1,5 @@
-import React from "react";
-import presets from "utils/presets";
+import React from 'react';
+import presets from 'utils/presets';
 
 const isSetsEqual = (a, b) => a.size === b.size && [...a].every(value => b.has(value));
 
@@ -19,19 +19,15 @@ const Animation = ({
 
       return {
         ...s,
-        texts: (texts[i] || []).map((t, i) => {
-          return {
-            className: s.classes[i] || "",
-            text: t,
-          };
-        }),
+        texts: (texts[i] || []).map((t, i) => ({
+          className: s.classes[i] || '',
+          text: t,
+        })),
       };
     });
 
     const start = new Date();
-    const getElapsed = () => {
-      return new Date() - start;
-    };
+    const getElapsed = () => new Date() - start;
 
     setInterval(() => {
       const elapsed = getElapsed() / 1000;
@@ -43,40 +39,38 @@ const Animation = ({
         setRendering(shouldRender);
       }
     }, 50);
-  }, [])
+  }, []);
 
-  return <>
-    {rendering.map((r) => {
-      return (
+  return (
+    <>
+      {rendering.map(r => (
         <div
           key={r.id}
           className="credit-text"
           style={{
-            position: "absolute",
+            position: 'absolute',
             top: `${r.y}vh`,
             left: `${r.x}vw`,
             animationDuration: `${r.duration}s`,
           }}
         >
           <div>
-            {r.texts.map((t, i) => {
-              return (
-                <div
-                  key={i}
-                  className={t.className}
-                  style={{
-                    animationDuration: `${r.duration}s`,
-                  }}
-                >
-                  { t.text }
-                </div>
-              );
-            })}
+            {r.texts.map((t, i) => (
+              <div
+                key={i}
+                className={t.className}
+                style={{
+                  animationDuration: `${r.duration}s`,
+                }}
+              >
+                { t.text }
+              </div>
+            ))}
           </div>
         </div>
-      );
-    })}
-  </>
-}
+      ))}
+    </>
+  );
+};
 
-export default Animation
+export default Animation;

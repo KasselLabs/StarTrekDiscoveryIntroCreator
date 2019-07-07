@@ -1,7 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import Animation from "components/animation";
-import texts from "utils/defaultTexts";
+import Animation from 'components/animation';
+import texts from 'utils/defaultTexts';
 
-ReactDOM.render(<Animation texts={texts}/>, document.getElementById("app"))
+ReactDOM.render(<Animation texts={texts} />, document.getElementById('app'));
