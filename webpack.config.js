@@ -1,9 +1,9 @@
-const webpack = require("webpack");
+const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-var cssExtractTextPlugin = new ExtractTextPlugin('[name].css');
+const cssExtractTextPlugin = new ExtractTextPlugin('[name].css');
 
 module.exports = {
   devServer: {
@@ -12,16 +12,16 @@ module.exports = {
   },
 
   entry: {
-    'script': './src/index.js',
-    'style': './src/styles/index.scss',
+    script: './src/index.js',
+    style: './src/styles/index.scss',
   },
 
   module: {
     rules: [
-      { test: /\.json$/, loader: 'json-loader'},
-      { test: /\.js$/, exclude: /(node_modules|bower_components)\//, loader: 'babel-loader'},
-      { test: /\.(ttf.*|eot.*|woff.*|ogg|mp3|otf)$/, loader: 'file-loader'},
-      { test: /.(png|jpe?g|gif|svg.*)$/, loader: 'file-loader'},
+      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.js$/, exclude: /(node_modules|bower_components)\//, loader: 'babel-loader' },
+      { test: /\.(ttf.*|eot.*|woff.*|ogg|mp3|otf|mp4)$/, loader: 'file-loader' },
+      { test: /.(png|jpe?g|gif|svg.*)$/, loader: 'file-loader' },
       {
         test: /\.css$/,
         loader: cssExtractTextPlugin.extract('css-loader'),
@@ -36,9 +36,9 @@ module.exports = {
   plugins: [
     cssExtractTextPlugin,
     new HtmlWebPackPlugin({
-      template: "./index.html",
-      filename: "./index.html",
-      favicon: "./assets/images/favicon.png",
+      template: './index.html',
+      filename: './index.html',
+      favicon: './assets/images/favicon.png',
     }),
     new webpack.DefinePlugin({
       CONFIG: JSON.stringify(require('config')),
