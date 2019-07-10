@@ -12,6 +12,7 @@ const Animation = ({
 }) => {
   const video = React.useRef(null);
   const [rendering, setRendering] = React.useState([]);
+  const [delays, setDelays] = React.useState({});
   renderingCache = rendering;
   const [paused, setPaused] = React.useState(true);
 
@@ -61,6 +62,14 @@ const Animation = ({
     });
     video.current.addEventListener('pause', () => setPaused(true));
     video.current.addEventListener('play', () => setPaused(false));
+    video.current.addEventListener('seeked', () => {
+      const elapsed = video.current.currentTime;
+      const delays = {};
+      renderingCache.forEach(({ id, start }) => {
+        delays[id] = (start - elapsed).toFixed(2);
+      });
+      setDelays(delays);
+    });
   }, []);
 
   return (
@@ -76,6 +85,7 @@ const Animation = ({
             left: `${r.x}vw`,
             animationDuration: `${r.duration}s`,
             animationPlayState: paused ? 'paused' : 'running',
+            animationDelay: `${delays[r.id] || 0}s`,
           }}
         >
           <div>
@@ -86,6 +96,7 @@ const Animation = ({
                 style={{
                   animationDuration: `${r.duration}s`,
                   animationPlayState: paused ? 'paused' : 'running',
+                  animationDelay: `${delays[r.id] || 0}s`,
                 }}
               >
                 { t.text }
