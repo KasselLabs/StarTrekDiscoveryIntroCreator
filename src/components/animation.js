@@ -9,6 +9,7 @@ const Animation = ({
 }) => {
   const video = React.useRef(null);
   const [rendering, setRendering] = React.useState([]);
+  const [paused, setPaused] = React.useState(true);
 
   React.useEffect(() => {
     const start = () => {
@@ -36,11 +37,8 @@ const Animation = ({
         };
       });
 
-      const start = new Date();
-      const getElapsed = () => new Date() - start;
-
       setInterval(() => {
-        const elapsed = getElapsed() / 1000;
+        const elapsed = video.current.currentTime;
         const renderingIds = new Set(rendering.map(s => s.id));
         const shouldRender = sequence.filter(s => s.start <= elapsed && s.end >= elapsed);
         const shouldRenderIds = new Set(shouldRender.map(s => s.id));
@@ -51,11 +49,13 @@ const Animation = ({
       }, 50);
     };
     video.current.addEventListener('canplaythrough', start);
+    video.current.addEventListener('pause', () => setPaused(true));
+    video.current.addEventListener('play', () => setPaused(false));
   }, []);
 
   return (
     <>
-      <video muted ref={video} className="intro" src={intro} />
+      <video muted controls ref={video} className="intro" src={intro} />
       {rendering.map(r => (
         <div
           key={r.id}
@@ -65,6 +65,7 @@ const Animation = ({
             top: `${r.y}vh`,
             left: `${r.x}vw`,
             animationDuration: `${r.duration}s`,
+            animationPlayState: paused ? 'paused' : 'running',
           }}
         >
           <div>
@@ -74,6 +75,7 @@ const Animation = ({
                 className={t.className}
                 style={{
                   animationDuration: `${r.duration}s`,
+                  animationPlayState: paused ? 'paused' : 'running',
                 }}
               >
                 { t.text }
