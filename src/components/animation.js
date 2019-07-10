@@ -4,15 +4,21 @@ import intro from '../../assets/video/intro.mp4';
 
 const isSetsEqual = (a, b) => a.size === b.size && [...a].every(value => b.has(value));
 
+// This variable is just used to communicate with setInterval
+let renderingCache;
+
 const Animation = ({
   texts,
 }) => {
   const video = React.useRef(null);
   const [rendering, setRendering] = React.useState([]);
+  renderingCache = rendering;
   const [paused, setPaused] = React.useState(true);
 
   React.useEffect(() => {
+    let initialized = false;
     const start = () => {
+      initialized = true;
       video.current.play();
       const sequence = presets.sequence.map((s, i) => {
         s = {
@@ -39,7 +45,7 @@ const Animation = ({
 
       setInterval(() => {
         const elapsed = video.current.currentTime;
-        const renderingIds = new Set(rendering.map(s => s.id));
+        const renderingIds = new Set(renderingCache.map(s => s.id));
         const shouldRender = sequence.filter(s => s.start <= elapsed && s.end >= elapsed);
         const shouldRenderIds = new Set(shouldRender.map(s => s.id));
         const changed = !isSetsEqual(renderingIds, shouldRenderIds);
@@ -48,7 +54,11 @@ const Animation = ({
         }
       }, 50);
     };
-    video.current.addEventListener('canplaythrough', start);
+    video.current.addEventListener('canplaythrough', () => {
+      if (!initialized) {
+        start();
+      }
+    });
     video.current.addEventListener('pause', () => setPaused(true));
     video.current.addEventListener('play', () => setPaused(false));
   }, []);
