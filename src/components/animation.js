@@ -13,14 +13,26 @@ const Animation = ({
   const video = React.useRef(null);
   const [rendering, setRendering] = React.useState([]);
   const [delays, setDelays] = React.useState({});
+  const [videoRect, setVideoRect] = React.useState({});
   renderingCache = rendering;
   const [paused, setPaused] = React.useState(true);
 
   React.useEffect(() => {
     let initialized = false;
+    const adjustVideoRect = () => {
+      const rect = video.current.getBoundingClientRect();
+      setVideoRect({
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height,
+      });
+    };
+
     const start = () => {
       initialized = true;
       video.current.play();
+      adjustVideoRect();
       const sequence = presets.sequence.map((s, i) => {
         s = {
           ...presets.defaults,
@@ -74,37 +86,45 @@ const Animation = ({
 
   return (
     <>
-      <video muted controls ref={video} className="intro" src={intro} />
-      {rendering.map(r => (
-        <div
-          key={r.id}
-          className="credit-text"
-          style={{
-            position: 'absolute',
-            top: `${r.y}vh`,
-            left: `${r.x}vw`,
-            animationDuration: `${r.duration}s`,
-            animationPlayState: paused ? 'paused' : 'running',
-            animationDelay: `${delays[r.id] || 0}s`,
-          }}
-        >
-          <div>
-            {r.texts.map((t, i) => (
-              <div
-                key={i}
-                className={t.className}
-                style={{
-                  animationDuration: `${r.duration}s`,
-                  animationPlayState: paused ? 'paused' : 'running',
-                  animationDelay: `${delays[r.id] || 0}s`,
-                }}
-              >
-                { t.text }
+      <div style={{
+        position: 'absolute',
+        ...videoRect,
+      }}
+      >
+        <div className="relative-animation">
+          {rendering.map(r => (
+            <div
+              key={r.id}
+              className="credit-text"
+              style={{
+                position: 'absolute',
+                top: `${r.y}%`,
+                left: `${r.x}%`,
+                animationDuration: `${r.duration}s`,
+                animationPlayState: paused ? 'paused' : 'running',
+                animationDelay: `${delays[r.id] || 0}s`,
+              }}
+            >
+              <div>
+                {r.texts.map((t, i) => (
+                  <div
+                    key={i}
+                    className={t.className}
+                    style={{
+                      animationDuration: `${r.duration}s`,
+                      animationPlayState: paused ? 'paused' : 'running',
+                      animationDelay: `${delays[r.id] || 0}s`,
+                    }}
+                  >
+                    { t.text }
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
+      <video muted controls ref={video} className="intro" src={intro} />
     </>
   );
 };

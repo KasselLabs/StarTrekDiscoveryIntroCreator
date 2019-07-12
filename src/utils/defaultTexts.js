@@ -1,5 +1,5 @@
 export default [
-  ['Starring', 'Sonequa', 'Martin - Green'],
+  ['Starring', 'Sonequa', 'Martin-Green'],
   ['Doug', 'Jones'],
   ['Anthony', 'Rapp'],
   ['Mary', 'Wiseman'],
