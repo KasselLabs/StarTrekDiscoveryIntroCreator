@@ -84,6 +84,7 @@ const Animation = ({
     });
   }, []);
 
+  console.log(video.current && video.current.currentTime);
   return (
     <>
       <div style={{
@@ -98,8 +99,8 @@ const Animation = ({
               className="credit-text"
               style={{
                 position: 'absolute',
-                top: `${r.y}%`,
                 left: `${r.x}%`,
+                top: `${r.y}%`,
                 animationDuration: `${r.duration}s`,
                 animationPlayState: paused ? 'paused' : 'running',
                 animationDelay: `${delays[r.id] || 0}s`,
